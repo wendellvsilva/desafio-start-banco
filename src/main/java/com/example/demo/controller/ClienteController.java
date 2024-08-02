@@ -1,50 +1,47 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.ClienteDTO;
 import com.example.demo.model.Cliente;
-import com.example.demo.repository.ClienteRepository;
+import com.example.demo.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
     @Autowired
-    private ClienteRepository clienteRepository;
+    private ClienteService clienteService;
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente) {
-        try {
-            Cliente novoCliente = clienteRepository.save(cliente);
-            return new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+    @PostMapping
+    public ResponseEntity<ClienteDTO> criarCliente(@RequestBody ClienteDTO clienteDTO) {
+        Cliente cliente = clienteDTO.toCliente();
+        Cliente novoCliente = clienteService.cadastrarCliente(cliente);
+        return new ResponseEntity<>(new ClienteDTO(novoCliente), HttpStatus.CREATED);
     }
 
-    @GetMapping(produces = "application/json")
-    public ResponseEntity<List<Cliente>> listarClientes() {
-        List<Cliente> clientes = clienteRepository.findAll();
-        return new ResponseEntity<>(clientes, HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<ClienteDTO>> listarClientes() {
+        List<Cliente> clientes = clienteService.listarClientes();
+        List<ClienteDTO> clienteDTOs = clientes.stream()
+                .map(ClienteDTO::new)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(clienteDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> buscarClientePorId(@PathVariable Long id) {
-        return clienteRepository.findById(id)
-                .map(cliente -> new ResponseEntity<>(cliente, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ClienteDTO> buscarClientePorId(@PathVariable Long id) {
+
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removerCliente(@PathVariable Long id) {
-        if (clienteRepository.existsById(id)) {
-            clienteRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        clienteService.removerCliente(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

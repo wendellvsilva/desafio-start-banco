@@ -79,22 +79,24 @@ public class ClienteServiceTest {
     }
 
     @Test
+
     public void testRemoverCliente() {
         Long id = 1L;
+        when(clienteRepository.existsById(id)).thenReturn(true);
         doNothing().when(clienteRepository).deleteById(id);
-
         clienteService.removerCliente(id);
-
         verify(clienteRepository, times(1)).deleteById(id);
+
     }
 
     @Test
     public void testRemoverClienteComErro() {
         Long id = 1L;
-        doThrow(new DataAccessResourceFailureException("Erro ao remover cliente")).when(clienteRepository).deleteById(id);
-
-        assertThrows(DataAccessResourceFailureException.class, () -> {
+        when(clienteRepository.existsById(id)).thenReturn(false);
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             clienteService.removerCliente(id);
         });
+        assertEquals("Cliente não encontrado com ID " + id, exception.getMessage());
     }
+
 }
