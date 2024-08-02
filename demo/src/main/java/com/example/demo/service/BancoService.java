@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class BancoService {
+
     @Autowired
     private BancoRepository bancoRepository;
 
@@ -23,8 +24,20 @@ public class BancoService {
     public Banco buscarBancoPorId(Long id) {
         return bancoRepository.findById(id).orElse(null);
     }
-    public boolean verificarSenhaBanco(Long id, String senha) {
-        Banco banco = bancoRepository.findById(id).orElse(null);
-        return banco != null && banco.getSenha().equals(senha);
+
+    public Banco atualizarBanco(Long id, Banco banco) {
+        if (bancoRepository.existsById(id)) {
+            banco.setId(id);
+            return bancoRepository.save(banco);
+        }
+        return null;
+    }
+
+    public boolean removerBanco(Long id) {
+        if (bancoRepository.existsById(id)) {
+            bancoRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

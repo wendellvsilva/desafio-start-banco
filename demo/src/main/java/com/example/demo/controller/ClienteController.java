@@ -1,6 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Banco;
 import com.example.demo.model.Cliente;
+import com.example.demo.repository.ClienteRepository;
+import com.example.demo.service.BancoService;
 import com.example.demo.service.ClienteService;
 import com.example.demo.service.ContaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,25 +17,38 @@ import java.util.List;
 @RequestMapping("/clientes")
 public class ClienteController {
     @Autowired
-    private ClienteService clienteService;
-    @Autowired
-    private ContaService contaService;
+    private ClienteRepository clienteRepository;
 
-    @PostMapping Cliente cadastrarCliente(@RequestBody Cliente cliente) {
-        return clienteService.cadastrarCliente(cliente);
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente) {
+        try {
+            Cliente novoCliente = clienteRepository.save(cliente);
+            return new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @GetMapping
-    public List<Cliente> listarClientes() {
-        return clienteService.listarClientes();
+    @GetMapping(produces = "application/json")
+    public ResponseEntity<List<Cliente>> listarClientes() {
+        List<Cliente> clientes = clienteRepository.findAll();
+        return new ResponseEntity<>(clientes, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> buscarClientePorId(@PathVariable Long id) {
+        return clienteRepository.findById(id)
+                .map(cliente -> new ResponseEntity<>(cliente, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> removerCliente(@PathVariable Long id) {
-        if (contaService.existemContasAtivas(id)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cliente possui contas ativas.");
+    public ResponseEntity<Void> removerCliente(@PathVariable Long id) {
+        if (clienteRepository.existsById(id)) {
+            clienteRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        clienteService.removerCliente(id);
-        return ResponseEntity.ok("Cliente removido com sucesso.");
     }
 }

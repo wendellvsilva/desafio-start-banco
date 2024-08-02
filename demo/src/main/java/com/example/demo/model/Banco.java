@@ -15,9 +15,29 @@ public class Banco {
     private String nome;
     private String senha;
 
-    @OneToMany(mappedBy = "banco", cascade = CascadeType.ALL)
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public void setContas(List<Conta> contas) {
+        this.contas = contas;
+    }
+
+    @OneToMany(mappedBy = "banco", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Cliente> clientes;
 
-    @OneToMany(mappedBy = "banco", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "banco", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Conta> contas;
 }
