@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: bancos_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: eutenhoexp0
+      MYSQL_DATABASE: bancos
+    ports:
+      - "3310:3306"
