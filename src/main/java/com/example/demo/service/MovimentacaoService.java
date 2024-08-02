@@ -8,6 +8,9 @@ import com.example.demo.repository.MovimentacaoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @Service
 public class MovimentacaoService {
 
@@ -55,5 +58,9 @@ public class MovimentacaoService {
         contaRepository.save(contaOrigem);
         contaRepository.save(contaDestino);
         movimentacaoRepository.save(transferencia);
+    }
+    @Transactional
+    public List<Movimentacao> listarMovimentacoes() {
+        return movimentacaoRepository.findAll();
     }
 }

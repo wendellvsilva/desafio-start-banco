@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/movimentacoes")
@@ -47,5 +49,15 @@ public class MovimentacaoController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<List<Movimentacao>> listarMovimentacoes() {
+        List<Movimentacao> movimentacoes = movimentacaoService.listarMovimentacoes();
+        return new ResponseEntity<>(movimentacoes, HttpStatus.OK);
+    }
+    @GetMapping("{id}")
+    public ResponseEntity<List<Movimentacao>> listarMovimentacoesComId() {
+        List<Movimentacao> movimentacoes = movimentacaoService.listarMovimentacoes();
+        return new ResponseEntity<>(movimentacoes, HttpStatus.OK);
+    }
 }
 
