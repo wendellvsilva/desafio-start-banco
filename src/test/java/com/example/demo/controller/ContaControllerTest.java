@@ -5,6 +5,7 @@ import com.example.demo.service.ContaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -40,7 +41,7 @@ public class ContaControllerTest {
 
     @BeforeEach
     public void setUp() {
-        // Optionally reset mocks or initialize test data
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

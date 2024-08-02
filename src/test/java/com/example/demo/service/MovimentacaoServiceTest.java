@@ -55,7 +55,7 @@ public class MovimentacaoServiceTest {
     }
 
     @Test
-    public void testRealizarDeposito_ContaNaoEncontrada() {
+    public void testRealizarDepositoContaNaoEncontrada() {
         Movimentacao deposito = new Movimentacao();
         deposito.setConta(new Conta());
         deposito.getConta().setId(1L);
@@ -90,7 +90,7 @@ public class MovimentacaoServiceTest {
     }
 
     @Test
-    public void testRealizarSaque_SaldoInsuficiente() {
+    public void testRealizarSaqueSemSaldo() {
         Conta conta = new Conta();
         conta.setId(1L);
         conta.setSaldo(30.0);
@@ -108,7 +108,7 @@ public class MovimentacaoServiceTest {
     }
 
     @Test
-    public void testRealizarSaque_ContaNaoEncontrada() {
+    public void testRealizarSaqueSemConta() {
         Movimentacao saque = new Movimentacao();
         saque.setConta(new Conta());
         saque.getConta().setId(1L);
@@ -152,7 +152,7 @@ public class MovimentacaoServiceTest {
     }
 
     @Test
-    public void testRealizarTransferencia_SaldoInsuficiente() {
+    public void testRealizarTransferenciaComSaldoInsuficiente() {
         Conta contaOrigem = new Conta();
         contaOrigem.setId(1L);
         contaOrigem.setSaldo(30.0);
@@ -175,7 +175,7 @@ public class MovimentacaoServiceTest {
     }
 
     @Test
-    public void testRealizarTransferencia_ContaDestinoNaoEncontrada() {
+    public void testRealizarTransferenciaComContaDestinoNaoEncontrada() {
         Conta contaOrigem = new Conta();
         contaOrigem.setId(1L);
         contaOrigem.setSaldo(100.0);
@@ -196,7 +196,7 @@ public class MovimentacaoServiceTest {
     }
 
     @Test
-    public void testRealizarTransferencia_ContaOrigemNaoEncontrada() {
+    public void testRealizarTransferenciaComContaOrigemNaoEncontrada() {
         Conta contaDestino = new Conta();
         contaDestino.setId(2L);
         contaDestino.setSaldo(100.0);

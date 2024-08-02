@@ -96,7 +96,7 @@ public class BancoControllerTest {
     }
 
     @Test
-    public void testBuscarBancoPorId_NaoEncontrado() throws Exception {
+    public void testBuscarBancoPorIdInexistente() throws Exception {
         when(bancoService.buscarBancoPorId(1L)).thenReturn(null);
 
         mockMvc.perform(get("/bancos/1"))
@@ -120,7 +120,7 @@ public class BancoControllerTest {
     }
 
     @Test
-    public void testAtualizarBanco_NaoEncontrado() throws Exception {
+    public void testAtualizarBancoNulo() throws Exception {
         Banco banco = new Banco();
         banco.setId(1L);
         banco.setNome("Banco Atualizado");
@@ -143,7 +143,7 @@ public class BancoControllerTest {
     }
 
     @Test
-    public void testRemoverBanco_NaoEncontrado() throws Exception {
+    public void testRemoverBancoIdInexistente() throws Exception {
         when(bancoService.removerBanco(1L)).thenReturn(false);
 
         mockMvc.perform(delete("/bancos/1"))

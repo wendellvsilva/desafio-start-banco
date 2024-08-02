@@ -5,6 +5,7 @@ import com.example.demo.repository.ClienteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -38,6 +39,11 @@ public class ClienteControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     public void testCriarCliente() throws Exception {
@@ -93,7 +99,7 @@ public class ClienteControllerTest {
     }
 
     @Test
-    public void testBuscarClientePorId_NaoEncontrado() throws Exception {
+    public void testBuscarClientePorIdInexistente() throws Exception {
         when(clienteRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/clientes/1"))
@@ -109,7 +115,7 @@ public class ClienteControllerTest {
     }
 
     @Test
-    public void testRemoverCliente_NaoEncontrado() throws Exception {
+    public void testRemoverClienteInexistente() throws Exception {
         when(clienteRepository.existsById(anyLong())).thenReturn(false);
 
         mockMvc.perform(delete("/clientes/1"))

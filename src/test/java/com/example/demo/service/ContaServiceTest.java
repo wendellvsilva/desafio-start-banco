@@ -44,7 +44,7 @@ public class ContaServiceTest {
     }
 
     @Test
-    public void testCriarConta_Error() {
+    public void testCriarContaSemId() {
         Conta conta = new Conta();
         when(contaRepository.save(conta)).thenThrow(new DataAccessResourceFailureException("Erro ao salvar conta"));
 
@@ -70,7 +70,7 @@ public class ContaServiceTest {
     }
 
     @Test
-    public void testListarContas_Error() {
+    public void testListarContasComErro() {
         when(contaRepository.findAll()).thenThrow(new DataAccessResourceFailureException("Erro ao listar contas"));
 
         assertThrows(DataAccessResourceFailureException.class, () -> {
@@ -91,7 +91,7 @@ public class ContaServiceTest {
     }
 
     @Test
-    public void testBuscarContaPorId_NotFound() {
+    public void testBuscarContaPorIdVazio() {
         Long id = 1L;
         when(contaRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -117,7 +117,7 @@ public class ContaServiceTest {
     }
 
     @Test
-    public void testAtualizarConta_NotFound() {
+    public void testAtualizarContaVazia() {
         Long id = 1L;
         Conta conta = new Conta();
         when(contaRepository.existsById(id)).thenReturn(false);
@@ -143,7 +143,7 @@ public class ContaServiceTest {
     }
 
     @Test
-    public void testRemoverConta_NotFound() {
+    public void testRemoverContaInexistente() {
         Long id = 1L;
         when(contaRepository.existsById(id)).thenReturn(false);
 
@@ -155,7 +155,7 @@ public class ContaServiceTest {
     }
 
     @Test
-    public void testRemoverConta_Error() {
+    public void testRemoverContaComErro() {
         Long id = 1L;
         when(contaRepository.existsById(id)).thenReturn(true);
         doThrow(new DataAccessResourceFailureException("Erro ao remover conta")).when(contaRepository).deleteById(id);

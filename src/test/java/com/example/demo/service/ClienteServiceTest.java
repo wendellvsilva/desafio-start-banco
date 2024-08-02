@@ -44,7 +44,7 @@ public class ClienteServiceTest {
     }
 
     @Test
-    public void testCadastrarCliente_Error() {
+    public void testCadastrarClienteSemId() {
         Cliente cliente = new Cliente();
         when(clienteRepository.save(cliente)).thenThrow(new DataAccessResourceFailureException("Erro ao salvar cliente"));
 
@@ -70,7 +70,7 @@ public class ClienteServiceTest {
     }
 
     @Test
-    public void testListarClientes_Error() {
+    public void testListarClientesComErro() {
         when(clienteRepository.findAll()).thenThrow(new DataAccessResourceFailureException("Erro ao listar clientes"));
 
         assertThrows(DataAccessResourceFailureException.class, () -> {
@@ -89,7 +89,7 @@ public class ClienteServiceTest {
     }
 
     @Test
-    public void testRemoverCliente_Error() {
+    public void testRemoverClienteComErro() {
         Long id = 1L;
         doThrow(new DataAccessResourceFailureException("Erro ao remover cliente")).when(clienteRepository).deleteById(id);
 

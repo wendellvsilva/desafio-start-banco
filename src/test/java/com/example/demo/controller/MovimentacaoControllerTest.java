@@ -100,7 +100,7 @@ public class MovimentacaoControllerTest {
     }
 
     @Test
-    public void testRealizarDeposito_Falha() throws Exception {
+    public void testRealizarDepositoComFalha() throws Exception {
         Movimentacao deposito = new Movimentacao();
         deposito.setOperacao("DEPOSITO");
         deposito.setValor(500.00);
@@ -118,7 +118,7 @@ public class MovimentacaoControllerTest {
     }
 
     @Test
-    public void testRealizarSaque_Falha() throws Exception {
+    public void testRealizarSaqueComFalha() throws Exception {
         Movimentacao saque = new Movimentacao();
         saque.setOperacao("SAQUE");
         saque.setValor(200.00);
@@ -136,7 +136,7 @@ public class MovimentacaoControllerTest {
     }
 
     @Test
-    public void testRealizarTransferencia_Falha() throws Exception {
+    public void testRealizarTransferenciaComFalha() throws Exception {
         Movimentacao transferencia = new Movimentacao();
         transferencia.setOperacao("TRANSFERENCIA");
         transferencia.setValor(300.00);
