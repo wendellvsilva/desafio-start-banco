@@ -3,11 +3,11 @@ package com.example.demo.controller;
 import com.example.demo.model.Banco;
 import com.example.demo.model.Conta;
 import com.example.demo.model.Movimentacao;
+import com.example.demo.service.BancoService;
+import com.example.demo.service.ContaService;
 import com.example.demo.service.MovimentacaoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -21,7 +21,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(MovimentacaoController.class)
 @Import(TestSecurityConfig.class)
@@ -36,10 +37,11 @@ public class MovimentacaoControllerTest {
     @MockBean
     private MovimentacaoService movimentacaoService;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+    @MockBean
+    private ContaService contaService;
+
+    @MockBean
+    private BancoService bancoService;
 
     @Test
     public void testRealizarDeposito() throws Exception {
